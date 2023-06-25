@@ -1,12 +1,12 @@
 import { Router } from "express";
-import CartManager from "../classes/cartManager.js";
+import CartManager from "../daos/mongodb/cartManager.class.js";
 
 const router = Router();
 
 const cartManager = new CartManager
 
 router.get('/', async (req, res) => {
-    const carros = await cartManager.getCart()
+    const carros = await cartManager.getCarts()
     res.send(carros);
 })
 
@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
 })
 
 router.post('/:cid/products/:pid', async (req, res) => {  
-    const resultado = await cartManager.addProductCart(req.params.cid, req.params.pid);
+    const resultado = await cartManager.addProductToCart(req.params.cid, req.params.pid);
 
     if (resultado === null){
         res.send({ status: "el carro o producto selecionado no existe" })
